@@ -1,0 +1,312 @@
+#########################
+# Variable declarations #
+#########################
+
+# Solarized Dark colors
+set $base00 #002b36
+set $base01 #073642
+set $base02 #586e75
+set $base03 #657b83
+set $base04 #839496
+set $base05 #93a1a1
+set $base06 #eee8d5
+set $base07 #fdf6e3
+set $base08 #dc322f
+set $base09 #cb4b16
+set $base0A #b58900
+set $base0B #859900
+set $base0C #2aa198
+set $base0D #268bd2
+set $base0E #6c71c4
+set $base0F #d33682
+
+#Mod key
+set $modkey Mod4
+
+# Window focus keys
+set $up k
+set $down j
+set $left h
+set $right l
+
+# i3-volume settings
+set $volumepath ~/i3-volume
+set $statuscmd i3status
+set $statussig SIGUSR1
+set $volumestep 5
+
+# i3lock settings
+set $i3lockcommand "i3lock -eu --line-uses-ring -B 8 --separatorcolor=586e75ff --bshlcolor=ff0000ff --verifcolor=ff0000ff --keyhlcolor=675b83ff --ringcolor=073642ff --insidecolor=93a1a140O"
+
+# System information
+set $terminalemulator termite
+
+#i3status command w/configuration path
+# set $i3statuscommand i3status -c ~/.i3/i3status.conf
+set $i3statuscommand ~/.i3/conky.sh
+
+#i3bar command
+set $i3barcommand i3bar
+
+#######################
+# Basic Configuration #
+#######################
+
+### Windows
+## Colors
+client.focused $base0c $base0c $base00 $base01
+client.focused_inactive $base01 $base01 $base03 $base01
+client.unfocused $base01 $base01 $base03 $base01
+client.urgent $base02 $base08 $base07 $base08
+
+## Title font
+font pango:monospace 8
+
+## Titlebars
+for_window [class=".*"] border pixel 1
+
+## Split
+bindsym $modkey+b split h
+bindsym $modkey+v split v
+
+## Layout
+bindsym $modkey+z layout stacking
+bindsym $modkey+x layout tabbed
+bindsym $modkey+c layout toggle split
+bindsym $modkey+Shift+f fullscreen toggle
+
+## Scratchpad
+bindsym $modkey+Shift+minus move scratchpad
+bindsym $modkey+minus scratchpad show
+
+## Focus
+bindsym $modkey+Tab focus mode_toggle
+bindsym $modkey+a focus parent
+# Focuses Discord
+bindsym $modkey+d exec ~/scripts/discord.sh
+bindsym $modkey+$left focus left
+bindsym $modkey+$down focus down
+bindsym $modkey+$up focus up
+bindsym $modkey+$right focus right
+bindsym $modkey+Left focus left
+bindsym $modkey+Down focus down
+bindsym $modkey+Up focus up
+bindsym $modkey+Right focus right
+
+## Movement
+bindsym $modkey+Shift+$left move left
+bindsym $modkey+Shift+$down move down
+bindsym $modkey+Shift+$up move up
+bindsym $modkey+Shift+$right move right
+bindsym $modkey+Shift+Left move left
+bindsym $modkey+Shift+Down move down
+bindsym $modkey+Shift+Up move up
+bindsym $modkey+Shift+Right move right
+
+## Floating
+# Key to hold to enable window dragging
+floating_modifier $modkey
+bindsym $modkey+Shift+space floating toggle
+focus_follows_mouse yes
+
+## Generic keybinds
+# Kills the focused window
+bindsym $modkey+w kill
+# Opens your terminal emulator
+bindsym $modkey+Return exec $terminalemulator
+
+## Smart-features
+smart_borders on
+########### was 25
+gaps inner 0
+gaps outer 0
+
+
+### Workspace
+## Window workspace switching
+bindsym $modkey+Shift+1 move container to workspace 1
+bindsym $modkey+Shift+2 move container to workspace 2
+bindsym $modkey+Shift+3 move container to workspace 3
+bindsym $modkey+Shift+4 move container to workspace 4
+bindsym $modkey+Shift+5 move container to workspace 5
+bindsym $modkey+Shift+6 move container to workspace 6
+bindsym $modkey+Shift+7 move container to workspace 7
+bindsym $modkey+Shift+8 move container to workspace 8
+bindsym $modkey+Shift+9 move container to workspace 9
+bindsym $modkey+Shift+0 move container to workspace 10
+
+## Current workspace switching
+bindsym $modkey+1 workspace 1
+bindsym $modkey+2 workspace 2
+bindsym $modkey+3 workspace 3
+bindsym $modkey+4 workspace 4
+bindsym $modkey+5 workspace 5
+bindsym $modkey+6 workspace 6
+bindsym $modkey+7 workspace 7
+bindsym $modkey+8 workspace 8
+bindsym $modkey+9 workspace 9
+bindsym $modkey+0 workspace 10
+
+
+
+### i3bar
+## Bar hidden_state and mode toggles
+bindsym $modkey+e bar hidden_state toggle permanent; bar mode toggle permanent
+
+## Allows have toggling topbar w/tray, and temp-viewing topbar without it. Pretty. Or gross?
+## You decide!
+bar {
+  	id ephemeral
+
+    modifier $modkey
+
+    mode hide
+    hidden_state hide
+
+    i3bar_command $i3barcommand
+    status_command $i3statuscommand
+
+    workspace_buttons yes
+    tray_output primary
+    font pango: Terminus, uushi, fontawesome 8
+    position top # absolutely not me irl
+
+    colors {
+        separator $base03
+        background $base01
+        statusline #4ad0c6
+        focused_workspace $base0C $base0c $base00
+        active_workspace $base02 $base02 $base07
+        inactive_workspace $base01 $base01 $base03
+        urgent_workspace $base08 $base08 $base07
+    }
+}
+bar {
+  	id permanent
+
+    modifier none
+
+    mode hide
+    hidden_state hide
+
+    i3bar_command $i3barcommand
+  	status_command $i3statuscommand
+
+    tray_output none
+    workspace_buttons yes
+    font pango: Terminus, uushi, fontawesome 8
+    position top # absolutely not me irl
+    
+    colors {
+        separator $base03
+        background $base01
+        statusline #4ad0c6
+        focused_workspace $base0C $base0c $base00
+        active_workspace $base02 $base02 $base07
+        inactive_workspace $base01 $base01 $base03
+        urgent_workspace $base08 $base08 $base07
+    }
+}
+
+
+
+### meta
+# Reload i3 config
+bindsym $modkey+Shift+c reload
+# Restart i3
+bindsym $modkey+Shift+r restart
+
+
+
+############################
+# THIRD PARTY APPLICATIONS #
+############################
+
+### Rofi
+## Show installed programs
+bindsym $modkey+s exec rofi -show drun -fg "#f1f1f1" -bg "#333333" -hlfg "#ffffff" -hlbg "336699" -o 85
+
+## Show programs in /bin/
+bindsym $modkey+r exec rofi -show run -fg "#f1f1f1" -bg "#333333" -hlfg "#ffffff" -hlbg "#336699" -o 85
+
+## Show window switcher.
+bindsym $modkey+p exec rofi -show window -fg "#f1f1f1" -bg "#333333" -hlfg "#ffffff" -hlbg "#336699" -o 85
+
+### i3lock
+## Lock window
+bindsym $modkey+O exec $i3lockcommand
+
+### i3-volume
+## Traditional media keys
+# Raise volume
+bindsym XF86AudioRaiseVolume exec $volumepath/volume -i $volumestep -n -t $statuscmd -u $statussig
+# Lower volume
+bindsym XF86AudioLowerVolume exec $volumepath/volume -d $volumestep -n -t $statuscmd -u $statussig
+# Mute
+bindsym XF86AudioMute exec $volumepath/volume -m -n -t $statuscmd -u $statussig
+
+## Non-traditional media keys
+# Raise volume
+bindsym $modkey+Shift+e exec $volumepath/volume -i $volumestep -n -t $statuscmd -u $statussig
+# Lower volume
+bindsym $modkey+Shift+w exec $volumepath/volume -d $volumestep -n -t $statuscmd -u $statussig
+# Mute
+bindsym $modkey+Shift+q exec $volumepath/volume -m -n -t $statuscmd -u $statussig
+# Raise brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 2
+# Lower brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 2
+
+### mpc
+## Traditional media keys
+bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioNext exec mpc next
+
+## Non-traditional media keys
+bindsym $modkey+Shift+a exec mpc toggle
+bindsym $modkey+Shift+s exec mpc prev
+bindsym $modkey+Shift+d exec mpc next
+
+### imgur-screenshot
+bindsym --release $modkey+space exec imgur-screenshot
+
+### thunar
+bindsym $modkey+f exec thunar
+
+############
+# PERSONAL #
+############
+
+## For personal items unrelated to actual i3 usage.
+## For example, hiding a background window, running startup tasks, et cetera.
+
+# Start Polkit
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
+
+# Start whatpulse
+exec --no-startup-id sudo ~/scripts/start_whatpulse.sh
+
+# Start unclutter
+exec --no-startup-id unclutter
+
+# Start mpd
+exec --no-startup-id mpd
+
+# Opens ncmpcpp in your terminal emulator
+# exec --no-startup-id $terminalemulator -e ncmpcpp
+exec --no-startup-id ~/scripts/mpdnotifier.sh
+exec --no-startup-id bash ~/scripts/color.sh
+exec --no-startup-id bash ~/scripts/launchundust.sh
+exec --no-startup-id discord-canary
+
+# Mask bad TouchPad taps
+exec --no-startup-id syndaemon -i 0.5 -t -K -R
+exec --no-startup-id synclient PalmDetect=1
+exec --no-startup-id synclient MaxTapTime=0
+
+# Start notification daemon
+exec --no-startup-id dunst
+
+# Start OOM logger
+exec --no-startup-id ~/scripts/oomlogger.fish
